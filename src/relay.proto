@@ -1,0 +1,8 @@
+syntax = "proto3";
+package relay;
+
+// Event represents a single event emitted.
+message Event {
+  string name = 1;
+  map<string,string> body = 2;
+}
