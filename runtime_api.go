@@ -69,8 +69,8 @@ func (m *module) tree(state *lua.LState) int {
 	// Parse the input features
 	v, err := m.load(state.CheckString(1), func(b []byte) (interface{}, error) {
 		var model goscore.Node
-		xml.Unmarshal(b, &model)
-		return model, nil
+		err := xml.Unmarshal(b, &model)
+		return model, err
 	})
 	if err != nil {
 		state.RaiseError("tree: %s", err.Error())
@@ -81,7 +81,7 @@ func (m *module) tree(state *lua.LState) int {
 		input := parseTable(state.CheckTable(2))
 		score, err := node.TraverseTree(input)
 		if err != nil {
-			state.RaiseError("score: %s", err.Error())
+			state.RaiseError("tree: %s", err.Error())
 			return 1
 		}
 
